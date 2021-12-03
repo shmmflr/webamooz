@@ -27,7 +27,7 @@ $(document).ready(function () {
             if (($(this).val() != '') && ($(".tags .addedTag:contains('" + $(this).val() + "') ").length == 0)) {
 
 
-                $('<li class="addedTag">' + $(this).val() + '<span class="tagRemove" onclick="$(this).parent().remove();">x</span><input type="hidden" value="' + $(this).val() + '" name="categories[]"></li>').insertBefore('.tags .tagAdd');
+                $('<li class="addedTag">' + $(this).val() + '<span class="tagRemove" onclick="$(this).parent().remove();">x</span><input type="hidden" value="'+$(this).val()+'" name="categories[]"></li>').insertBefore('.tags .tagAdd');
                 $(this).val('');
 
             } else {

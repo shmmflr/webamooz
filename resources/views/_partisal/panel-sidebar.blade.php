@@ -9,8 +9,13 @@
         <li class="item-li i-categories @if(request()->is('dashboard/category') || request()->is('dashboard/category*')) is-active @endif ">
             <a href="{{route('category.index')}}">دسته بندی ها</a></li>
     @endif
-    <li class="item-li i-articles @if(request()->is('dashboard/post') || request()->is('dashboard/post*')) is-active @endif">
-        <a href="{{route('post.index')}}">مقالات</a></li>
-    <li class="item-li i-comments"><a href=""> نظرات</a></li>
+    @if(auth()->user()->role === 'author')
+        <li class="item-li i-articles @if(request()->is('dashboard/post') || request()->is('dashboard/post*')) is-active @endif">
+            <a href="{{route('post.index')}}">مقالات</a></li>
+    @endif
+    @if(auth()->user()->role === 'admin')
+        <li class="item-li i-comments @if(request()->is('dashboard/comments') || request()->is('dashboard/comments*')) is-active @endif">
+            <a href=""> نظرات</a></li>
+    @endif
     <li class="item-li i-user__inforamtion"><a href="">اطلاعات کاربری</a></li>
 </ul>

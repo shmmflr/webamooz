@@ -2,6 +2,9 @@
     <x-slot name="title">
         نمایش پست ها
     </x-slot>
+    <x-slot name="style">
+        <link rel="stylesheet" href="{{asset('css/style.css')}}">
+    </x-slot>
     <div class="breadcrumb">
         <ul>
             <li><a href="{{route('dashboard')}}">پیشخوان</a></li>
@@ -17,15 +20,11 @@
         </div>
         <div class="bg-white padding-20">
             <div class="t-header-search">
-                <form action="" onclick="event.preventDefault();">
-                    <div class="t-header-searchbox font-size-13">
-                        <div type="text" class="text search-input__box font-size-13">جستجوی مقاله
-                            <div class="t-header-search-content ">
-                                <input type="text" class="text" placeholder="نام مقاله">
-                                <btutton class="btn btn-webamooz_net">جستجو</btutton>
-                            </div>
-                        </div>
-                    </div>
+                <form action="{{route('post.index')}}">
+                    <input value="{{ old('search') }}" name="search" class="text w-50" type="text">
+                    <button type="submit" class="btn btn-primary">
+                        بگرد
+                    </button>
                 </form>
             </div>
         </div>
@@ -34,6 +33,7 @@
             <table class="table">
 
                 <thead role="rowgroup">
+
                 <tr role="row" class="title-row">
                     <th>شناسه</th>
                     <th>عنوان</th>
@@ -42,31 +42,69 @@
                     <th>تاریخ ایجاد</th>
                     <th>عملیات</th>
                 </tr>
+
                 </thead>
                 <tbody>
-                <tr role="row" class="">
-                    <td><a href="">1</a></td>
-                    <td><a href="">فریم ورک لاراول چیست</a></td>
-                    <td>توفیق حمزئی</td>
-                    <td>فریم ورک لاراول یکی از فریم ورک های محبوب ...</td>
-                    <td>1399/11/11</td>
-                    <td>
-                        <a href="" class="mlg-15" title="حذف">
-                            <i class="fi fi-rr-trash"></i>
-                        </a>
-                        <a href="" target="_blank" class="mlg-15" title="مشاهده">
-                            <i class="fi fi-rr-eye"></i>
-                        </a>
-                        <a href="{{route('post.edit',1)}}" title="ویرایش">
-                            <i class="fi fi-rr-edit"></i>
-                        </a>
-                    </td>
-                </tr>
+                @foreach($posts as $key=>$post)
 
+                    <tr role="row" class="">
+                        <td>{{$key+=1}}</td>
+                        <td id="post-name-{{$post->id}}">{{$post->title}}</td>
+                        <td>{{$post->user->name}}</td>
+                        <td>{!! $post->content !!}</td>
+                        <td> {{$post->jalaliDate()}}</td>
+                        <td>
+                            <a href="{{route('post.destroy',$post->id)}}"
+                               onclick="delpost(event,{{$post->id}})"
+                               class="mlg-15" title="حذف">
+                                <i class="fi fi-rr-trash"></i>
+                            </a>
+                            <a href="{{route('post.show',$post->id)}}"
+
+                               target="_blank"
+                               class="mlg-15" title="مشاهده">
+                                <i class="fi fi-rr-eye"></i>
+                            </a>
+                            <a href="{{route('post.edit',$post->id)}}" title="ویرایش">
+                                <i class="fi fi-rr-edit"></i>
+                            </a>
+                        </td>
+                        <form action="{{route('post.destroy',$post->id)}}"
+                              method="POST"
+                              id="destroy-post-{{$post->id}}">
+                            @csrf
+                            @method('DELETE')
+                        </form>
+                    </tr>
+                @endforeach
 
                 </tbody>
             </table>
+            {{$posts->appends(request()->query())->links()}}
         </div>
     </div>
 
+    <x-slot name="script">
+        <script>
+            function delpost(event, id) {
+                var name = document.getElementById(`post-name-${id}`).innerText;
+                event.preventDefault();
+                Swal.fire({
+                    title: name,
+                    text: "آیا برای حذف این مقاله اطمینان دارید؟",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'بله ! حذف شود.',
+                    cancelButtonText: 'خیر ! منصرف شدم.'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById(`destroy-post-${id}`).submit();
+                    }
+
+                })
+            }
+        </script>
+    </x-slot>
 </x-panel-layout>

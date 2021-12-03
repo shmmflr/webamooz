@@ -93,7 +93,7 @@
         <script>
             function destroyCat(event, id) {
                 var name = document.getElementById(`cat-name-${id}`).innerText;
-                console.log(name)
+                // console.log(name)
                 event.preventDefault();
                 Swal.fire({
                     title: name,

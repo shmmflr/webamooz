@@ -15,7 +15,7 @@
     @endif
     @if(auth()->user()->role === 'admin')
         <li class="item-li i-comments @if(request()->is('dashboard/comments') || request()->is('dashboard/comments*')) is-active @endif">
-            <a href=""> نظرات</a></li>
+            <a href="{{route('comments.index')}}"> نظرات</a></li>
     @endif
-    <li class="item-li i-user__inforamtion"><a href="">اطلاعات کاربری</a></li>
+    <li class="item-li i-user__inforamtion @if(request()->is('profile')) is-active @endif"><a href="{{route('profile')}}">اطلاعات کاربری</a></li>
 </ul>

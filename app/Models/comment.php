@@ -26,4 +26,8 @@ class comment extends Model
     {
         return $this->belongsTo(Post::class);
     }
+    public function replace()
+    {
+        return $this->hasMany(comment::class);
+    }
 }

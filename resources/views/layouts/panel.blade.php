@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{{asset('panel/css/responsive_768.css')}}">
     <link rel="stylesheet" href="{{asset('panel/css/font.css')}}">
     <link rel="stylesheet" href="{{asset('css/uicons-regular-rounded.css')}}">
+    <link rel="stylesheet" href="{{asset('css/bootstrap-icons.css')}}">
 
 </head>
 <body>

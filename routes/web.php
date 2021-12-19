@@ -1,10 +1,11 @@
 <?php
 
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\Panel\CategoryController;
+use App\Http\Controllers\Panel\DashboardController;
 use App\Http\Controllers\panel\PostController;
 use App\Http\Controllers\panel\UploadFileController;
 use App\Http\Controllers\Panel\UserController;
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,18 +17,15 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
-Route::get('/', function () {
-    return view('index');
-})->name('index');
+// Route::get('/', [LandingController::class, 'index'])->name('index');
+Route::get('/', [LandingController::class, 'index'])->name('index');
 
-Route::middleware('auth')->get('/profile',[\App\Http\Controllers\Panel\ProfileController::class,'show'])->name('profile');
-Route::middleware('auth')->put('/profile',[\App\Http\Controllers\Panel\ProfileController::class,'update'])->name('profile.update');
+Route::middleware('auth')->get('/profile', [\App\Http\Controllers\Panel\ProfileController::class, 'show'])->name('profile');
+Route::middleware('auth')->put('/profile', [\App\Http\Controllers\Panel\ProfileController::class, 'update'])->name('profile.update');
 
-Route::get('/dashboard', function () {
-    return view('panel.index');
-})->middleware(['auth'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth'])->name('dashboard');
 Route::middleware(['auth', 'admin'])->prefix('/dashboard')->group(function () {
 
     Route::resource('/users', UserController::class)->except(['show']);

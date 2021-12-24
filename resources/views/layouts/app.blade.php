@@ -56,7 +56,7 @@
                             <div class="list">
                                 <ul>
                                     <li class="option selected" data-value="0" data-display-text="">
-                                        <a href="{{route('users')}}">پروفایل</a>
+                                        <a href="{{route('dashboard')}}">پروفایل</a>
                                     </li>
                                     <li class="option " data-value="0" data-display-text="" onclick="logout_user()">
                                         خروج
@@ -80,37 +80,21 @@
         </div>
         <div class="container container--nav">
             <ul class="nav__ul">
-                <li class="nav__item"><a href="#" class="nav__link">صفحه اصلی</a></li>
-                <li class="nav__item nav__item--has-sub"><a href="#" class="nav__link">برنامه نویسی</a>
+                <li class="nav__item"><a href="{{route('index')}}" class="nav__link">صفحه اصلی</a></li>
+                @php
+                $categories = App\Models\Category::where('category_id', null)->with('children')->get();
+                @endphp
+                @foreach($categories as $cat)
+                <li class="nav__item nav__item--has-sub"><a href="#" class="nav__link">{{$cat->name}}</a>
                     <div class="nav__sub">
                         <div class="container d-flex item-center flex-wrap container--nav">
-                            <a href="" class="nav__link">لینک یک </a>
-                            <a href="" class="nav__link">php</a>
-                            <a href="" class="nav__link">لینک سه</a>
-                            <a href="" class="nav__link">php</a>
+                            @foreach($cat->children as $subcat)
+                            <a href="" class="nav__link">{{$subcat->name}} </a>
+                @endforeach
                         </div>
                     </div>
                 </li>
-                <li class="nav__item nav__item--has-sub"><a href="#" class="nav__link">هک و امنیت</a>
-                    <div class="nav__sub">
-                        <div class="container d-flex item-center flex-wrap container--nav">
-                            <a href="" class="nav__link">لینک یک </a>
-                            <a href="" class="nav__link">c++</a>
-                            <a href="" class="nav__link">لینک سه</a>
-                            <!--                            <a href="" class="nav__sub-link">php</a>-->
-                        </div>
-                    </div>
-                </li>
-                <li class="nav__item nav__item--has-sub"><a href="#" class="nav__link">هک و امنیت</a>
-                    <div class="nav__sub">
-                        <div class="container d-flex item-center flex-wrap container--nav">
-                            <a href="" class="nav__link">لینک یک </a>
-                            <a href="" class="nav__link">c++</a>
-                            <a href="" class="nav__link">لینک سه</a>
-                            <!--                            <a href="" class="nav__sub-link">php</a>-->
-                        </div>
-                    </div>
-                </li>
+                @endforeach
                 <li class="nav__item"><a href="#" class="nav__link">درباره ما</a></li>
                 <li class="nav__item"><a href="#" class="nav__link">تماس باما</a></li>
             </ul>
@@ -160,5 +144,6 @@
         document.getElementById('form_logout').submit();
     }
 </script>
+{{$script ?? ''}}
 </body>
 </html>

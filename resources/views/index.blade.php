@@ -5,7 +5,7 @@
             <div class="articles">
                 @foreach($posts as $post)
                 <div class="articles__item">
-                    <a href="#" class="articles__link">
+                    <a href="{{route('show.single.post',$post->slug)}}" class="articles__link">
                         <div class="articles__img">
                             <img src="{{asset('img/banner/aparat.jpg')}}" class="articles__img-src">
                         </div>
